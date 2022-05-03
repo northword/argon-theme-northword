@@ -1,0 +1,48 @@
+<?php 
+/*
+Template Name: 成员
+*/
+query_posts("post_type=member&post_status=publish&posts_per_page=-1");
+?>
+
+<?php get_header(); ?>
+
+<div class="page-information-card-container">
+	<div class="page-information-card card bg-gradient-secondary shadow-lg border-0">
+		<div class="card-body">
+			<h3 class="text-black"><?php _e('成员', 'argon');?></h3>
+			<?php if (the_archive_description() != ''){ ?>
+				<p class="text-black mt-3">
+					<?php the_archive_description(); ?>
+				</p>
+			<?php } ?>
+			<p class="text-black mt-3 mb-0 opacity-8">
+				<i class="fa fa-quote-left mr-1"></i>
+				<?php echo wp_count_posts('member','') -> publish; ?> <?php _e('位成员', 'argon');?>
+			</p>
+		</div>
+	</div>
+</div>
+
+<?php get_sidebar(); ?>
+
+<div id="primary" class="content-area">
+	<main id="main" class="site-main" role="main">
+		<div class="member-showcase">
+			<?php if ( have_posts() ) : ?>
+				<?php
+					while ( have_posts() ) :
+						the_post();
+						get_template_part( 'template-parts/content', 'member' );
+					endwhile;
+				?>
+				<?php
+					echo get_argon_formatted_paginate_links_for_all_platforms();
+				?>
+				<?php
+			else :
+				get_template_part( 'template-parts/content', 'none-tag' );
+			endif;
+			?>
+		</div>
+<?php get_footer(); ?>
